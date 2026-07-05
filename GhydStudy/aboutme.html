@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>About Ghaida</title>
+    <link rel="stylesheet" href="aboutme.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <div class="terminal-card">
+        <div class="traffic-lights">
+            <div class="dot" style="background: #ff5f56;"></div>
+            <div class="dot" style="background: #ffbd2e;"></div>
+            <div class="dot" style="background: #27c93f;"></div>
+        </div>
+
+        <div id="loader" style="direction: ltr;"> 
+            <div style="width: 100%; border: 1px solid #00ff41; height: 10px; margin-bottom: 5px; text-align: left;">
+                <div id="progress" style="width: 0%; height: 100%; background: #00ff41;"></div>
+            </div>
+            <p>Initializing Ghyd_OS...</p>
+        </div>
+
+        <div id="text" class="text-content"></div>
+        
+        <a href="index.html" id="run-btn" style="display: none; text-decoration: none;">> run: exit_to_home.sh</a>
+    </div>
+
+    <script>
+        let content = `مرحباً.. أنا غيداء\n\nأنا طالبة IT، ومبرمجة، ومهووووووسة بالرياضيات!\n\nبصراحة، فكرة "Ghyd Study" ما جت من فراغ، كانت فكرة معشعشة براسي. طول فترة دراستي كنت دائماً الملجأ لصديقاتي لما يصعب عليهم فهم نقطة معينة أو مسألة رياضية.. ومع الوقت، صرت أكتشف إن أكثر لحظة أستمتع فيها هي لما أشوف "نور الفهم" في عيونهم.\n\nحبهم لشرحي وتفاعلهم الدائم معي هو اللي شجعني وأعطاني الدافع إني أوسع دائرة هذا العطاء وأطلقه هنا.\n\nأنا هنا مو عشان أشرح بأسلوب تلقين ممل، أنا أبغى أشاركك طريقة تفكيري، وكمان الصدق ما ابي ذي المواد تموت بذاكرتي 🙂‍↔️\n\n[SYSTEM_LOGS: GRADES_LOADED]\n[IMAGE_HERE]\n> Calculus I: 95%\n> Calculus II: 85%\n> Discrete Structures: 90%\n> Digital Logic Design: 97%\n\nكل "كود" أكتبه في موقعي، وكل شرح أنزله، هو جزء مني. مو بس أعطيكِ المعلومة، أنا أنقل لك "الشغف" اللي خلاني أجيب الدرجات اللي أفتخر فيها، وأخلي المادة اللي كانت "كابوس" تتحول لشيء ممتع وسهل.\n\nأنا هنا مو بس عشان أشرح لك، أنا هنا عشان نعيش المادة سوا، ونبسط كل تعقيد.. بكل حب وبساطة.`;
+
+        content = content.replace("[IMAGE_HERE]", '<br><img src="grades.jpg" class="grade-image"><br>');
+        
+        content = content.replace(/95%/g, '<span style="color: #f1c40f;">95%</span>')
+                         .replace(/85%/g, '<span style="color: #f1c40f;">85%</span>')
+                         .replace(/90%/g, '<span style="color: #f1c40f;">90%</span>')
+                         .replace(/97%/g, '<span style="color: #f1c40f;">97%</span>');
+
+        let i = 0, width = 0;
+        let bar = document.getElementById("progress");
+        let loader = document.getElementById("loader");
+        let el = document.getElementById("text");
+        let runBtn = document.getElementById("run-btn");
+
+        let interval = setInterval(() => {
+            width += 2; 
+            bar.style.width = width + "%";
+            if (width >= 100) { 
+                clearInterval(interval); 
+                loader.style.display = "none"; 
+                type(); 
+            }
+        }, 30);
+
+        function type() {
+            if (i < content.length) {
+                if (content.substr(i, 4) === '<br>') { 
+                    el.innerHTML += '<br>'; 
+                    i += 4; 
+                }
+                else if (content.substr(i, 4) === '<img') { 
+                    let tag = content.substring(i, content.indexOf('>', i) + 1); 
+                    el.innerHTML += tag; 
+                    i += tag.length; 
+                }
+                else if (content.substr(i, 5) === '<span') { 
+                    let tag = content.substring(i, content.indexOf('</span>', i) + 7); 
+                    el.innerHTML += tag; 
+                    i += tag.length; 
+                }
+                else { 
+                    el.innerHTML += content.charAt(i) === '\n' ? '<br><br>' : content.charAt(i); 
+                    i++; 
+                }
+                setTimeout(type, Math.random() * 40 + 10);
+            } else {
+                el.innerHTML += '<span class="typing-cursor"></span>';
+                runBtn.style.display = "inline-block";
+            }
+        }
+    </script>
+</body>
+</html>
